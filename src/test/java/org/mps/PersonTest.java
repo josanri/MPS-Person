@@ -1,6 +1,5 @@
 package org.mps;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -9,31 +8,16 @@ import java.util.List;
 
 class PersonTest {
 
-    List<Person> personList;
-    @AfterAll
-    public void setup()
-    {
-        Person person1, person2, person3;
-        person1 = new Person("Pepe", 12, Gender.male);
-        person2 = new Person("Juana", 23, Gender.female);
-        person3 = new Person("Antonia", 13, Gender.female);
-        personList.add(person1);
-        personList.add(person2);
-        personList.add(person3);
-    }
-
     @Test
     public void averagePerAgeThrowsExceptionIfNullListIsGiven()
     {
-        List<Person> list = null;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> Person.averageAgePerGender(list));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Person.averageAgePerGender(null));
     }
 
     @Test
     public void averagePerAgeThrowsExceptionIfEmptyListIsGiven()
     {
         List<Person> list = new ArrayList<>();
-
         Assertions.assertThrows(IllegalArgumentException.class, () -> Person.averageAgePerGender(list));
     }
 
@@ -49,6 +33,63 @@ class PersonTest {
         Assertions.assertEquals(0, averageList[1]);
     }
 
+    @Test
+    public void averagePerAgeThrowsExceptionOnOverflow()
+    {
+        List<Person> personList = new ArrayList<>();
+
+        personList.add(new Person("Antonia", Integer.MAX_VALUE, Gender.female));
+        personList.add(new Person("Pepa", 3, Gender.female));
+        Assertions.assertThrows(RuntimeException.class, () -> Person.averageAgePerGender(personList));
+    }
+
+    @Test
+    public void averagePerAgeOfFemalesExample()
+    {
+        double[] averageList;
+        List<Person> personList = new ArrayList<>();
+
+        personList.add(new Person("Pepa", 11, Gender.female));
+        personList.add(new Person("Antonia", 3, Gender.female));
+        personList.add(new Person("Julia", 3, Gender.female));
+
+        averageList = Person.averageAgePerGender(personList);
+        Assertions.assertEquals(0, averageList[0]);
+        Assertions.assertEquals(17 / 3, averageList[1]);
+    }
+
+
+    @Test
+    public void averagePerAgeOfMalesExample()
+    {
+        double[] averageList;
+        List<Person> personList = new ArrayList<>();
+
+        personList.add(new Person("Pepe", 3, Gender.male));
+        personList.add(new Person("Antonio", 10, Gender.male));
+        personList.add(new Person("Julio", 10, Gender.male));
+
+        averageList = Person.averageAgePerGender(personList);
+        Assertions.assertEquals(23 / 3, averageList[0]);
+        Assertions.assertEquals(0, averageList[1]);
+    }
+    @Test
+    public void averagePerAgeOfMalesAndFemalesExample()
+    {
+        double[] averageList;
+        List<Person> personList = new ArrayList<>();
+
+        personList.add(new Person("Pepe", 3, Gender.male));
+        personList.add(new Person("Antonio", 10, Gender.male));
+        personList.add(new Person("Julio", 10, Gender.male));
+        personList.add(new Person("Pepa", 11, Gender.female));
+        personList.add(new Person("Antonia", 3, Gender.female));
+        personList.add(new Person("Julia", 3, Gender.female));
+
+        averageList = Person.averageAgePerGender(personList);
+        Assertions.assertEquals(23 / 3, averageList[0]);
+        Assertions.assertEquals(17 / 3, averageList[1]);
+    }
 
     @Test
     public void averagePerAgeOf1FemaleIsThatAgeAnd0AtMales()
@@ -87,5 +128,31 @@ class PersonTest {
     public void personConstructorThrowsExceptionIfNullName()
     {
         Assertions.assertThrows(IllegalArgumentException.class, ()-> new Person(null, 0, Gender.female));
+    }
+
+    @Test
+    public void maleGetter()
+    {
+        String name = "Pepe";
+        int age = 15;
+        Gender gender = Gender.male;
+
+        Person person = new Person(name, age, gender);
+        Assertions.assertEquals(name, person.getName());
+        Assertions.assertEquals(age, person.getAge());
+        Assertions.assertEquals(gender, person.getGender());
+    }
+
+    @Test
+    public void femaleGetter()
+    {
+        String name = "Pepa";
+        int age = 35;
+        Gender gender = Gender.female;
+
+        Person person = new Person(name, age, gender);
+        Assertions.assertEquals(name, person.getName());
+        Assertions.assertEquals(age, person.getAge());
+        Assertions.assertEquals(gender, person.getGender());
     }
 }
