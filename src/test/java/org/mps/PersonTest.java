@@ -54,8 +54,8 @@ class PersonTest {
         personList.add(new Person("Julia", 3, Gender.female));
 
         averageList = Person.averageAgePerGender(personList);
-        Assertions.assertEquals(0, averageList[0]);
-        Assertions.assertEquals(17 / 3, averageList[1]);
+        Assertions.assertEquals(0.0, averageList[0]);
+        Assertions.assertEquals(17.0 / 3.0, averageList[1]);
     }
 
 
@@ -70,8 +70,8 @@ class PersonTest {
         personList.add(new Person("Julio", 10, Gender.male));
 
         averageList = Person.averageAgePerGender(personList);
-        Assertions.assertEquals(23 / 3, averageList[0]);
-        Assertions.assertEquals(0, averageList[1]);
+        Assertions.assertEquals(23.0 / 3.0, averageList[0]);
+        Assertions.assertEquals(0.0, averageList[1]);
     }
     @Test
     public void averagePerAgeOfMalesAndFemalesExample()
@@ -87,8 +87,8 @@ class PersonTest {
         personList.add(new Person("Julia", 3, Gender.female));
 
         averageList = Person.averageAgePerGender(personList);
-        Assertions.assertEquals(23 / 3, averageList[0]);
-        Assertions.assertEquals(17 / 3, averageList[1]);
+        Assertions.assertEquals(23.0 / 3.0, averageList[0]);
+        Assertions.assertEquals(17.0 / 3.0, averageList[1]);
     }
 
     @Test
