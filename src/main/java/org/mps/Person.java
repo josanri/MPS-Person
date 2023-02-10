@@ -60,19 +60,16 @@ public class Person {
         }
     }
 
+    // Double overflow is not controlled as the number of people needed to overflow it would be too much
     private static void calculateAverage(List<Person> list, Gender gender, double[] averageAgePerGender, int x) {
-        int size = 0;
-        int sumOfAges = 0;
+        double size = 0.0;
+        double sumOfAges = 0.0;
 
         for (Person person : list) {
             if (person.getGender().equals(gender))
             {
                 sumOfAges += person.getAge();
                 size++;
-                if (sumOfAges < 0)
-                {
-                    throw new RuntimeException("Overflow when adding the total of ages");
-                }
             }
         }
         if (size > 0) {
